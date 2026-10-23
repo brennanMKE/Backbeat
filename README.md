@@ -80,11 +80,14 @@ url = "http://macmini.local:8765"
 backbeat-out/
   index.sqlite         # cache and lookup index
   index.json           # exported index for easy consumption
-  tracks/<sha256>.json # one versioned result per track
+  tracks/<sha256>.json # analysis result per track (source of truth)
+  lights/<sha256>.json # render-ready LED plan derived from the analysis
   onsets/<sha256>.f16  # onset envelope, little-endian float16
 ```
 
-All times are seconds from track start. Time series use a fixed `hz` and a values array.
+LED renderers should read `lights/`. It holds brightness and energy curves (0–255 at 20 fps), a cue list of beats, downbeats, drops and section changes, and per-section palettes and effects, all timed in integer milliseconds. See [docs/lights-format.md](docs/lights-format.md) for the format.
+
+Analysis results in `tracks/` use seconds as floats. Their time series use a fixed `hz` and a values array.
 
 ## License
 

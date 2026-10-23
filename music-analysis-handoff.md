@@ -182,8 +182,11 @@ Keep all of these behind the worker boundary so the Go binary has no license ent
 cadence-out/
   index.json                 # or index.sqlite (see below)
   tracks/<sha256>.json
+  lights/<sha256>.json       # render-ready LED plan, see docs/lights-format.md
   onsets/<sha256>.f16        # binary onset envelope, little-endian float16
 ```
+
+The lights file is what LED renderers consume. It is derived from the track result by a versioned generator (`backbeat-lights@N`), so mapping changes regenerate it without re-analysis. Its format is specified in [docs/lights-format.md](docs/lights-format.md).
 
 Use SQLite for the index if it simplifies cache lookups (pure Go driver such as `modernc.org/sqlite` to keep `CGO_ENABLED=0`). Also export `index.json` for easy consumption.
 
